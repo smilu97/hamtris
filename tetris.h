@@ -37,17 +37,18 @@ namespace tetris {
         TetriminoType swap;
         bool swappable;
 
-        ~Tetris();
-
         static void Materialize(Board & targetBoard, const Tetrimino & tetrimino);
 
         void AddBatchInQueue();
         bool Move(int dx, int dy, int rot);
         bool CheckCollision(int x, int y, int rot, TetriminoType type) const;        
         bool GoNextTetrimino();
+        int RemoveFullLines();
+        bool IsFullLine(int x) const;
 
     public:
         Tetris();
+        ~Tetris();
         bool Drop();
         bool Rotate(bool);
         bool Step();

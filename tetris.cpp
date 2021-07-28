@@ -23,18 +23,28 @@ Tetris::Tetris(): board(BOARD_HEIGHT), swappable(true), swap(BOARD_EMPTY) {
  * Add random batch of 7 pieces to the queue
  */
 void Tetris::AddBatchInQueue() {
-    std::vector<int> batch(7);
-    std::iota(batch.begin(), batch.end(), 1);
+    std::vector<TetriminoType> batch(7);
+    
+    batch[0] = I_TETRIMINO;
+    batch[1] = J_TETRIMINO;
+    batch[2] = L_TETRIMINO;
+    batch[3] = S_TETRIMINO;
+    batch[4] = T_TETRIMINO;
+    batch[5] = Z_TETRIMINO;
+    batch[6] = O_TETRIMINO;
+    
     std::random_shuffle(batch.begin(), batch.end());
-    std::copy(batch.begin(), batch.end(), std::back_inserter(queue));
+
+    for (TetriminoType piece: batch)
+        queue.push_back(piece);
 }
 
 /**
  * Move currTetrimino to desired direction
  */
-bool Tetris::Move(int dx, int dy, int rot) {
+bool Tetris::Move(int dx, int dy, int d_rot) {
     int x = currTetrimino.x + dx, y = currTetrimino.y + dy;
-    int rot = (currTetrimino.rot + rot) % 4;
+    int rot = (currTetrimino.rot + d_rot) % 4;
     
     if (CheckCollision(x, y, rot, currTetrimino.type)) {
         return false;
@@ -75,9 +85,10 @@ bool Tetris::CheckCollision(int x, int y, int rot, TetriminoType type) const {
         for (int j = 0; j < sz; j++) {
             if (shape[i*sz + j] == 0) continue;
             int tx = x + i, ty = y + j;
-            if (board[tx][ty] != BOARD_EMPTY) {
+            if (tx < 0 || ty < 0 || tx >= BOARD_HEIGHT || ty >= BOARD_WIDTH)
                 return true;
-            }
+            if (board[tx][ty] != BOARD_EMPTY)
+                return true;
         }
     }
 
@@ -85,6 +96,8 @@ bool Tetris::CheckCollision(int x, int y, int rot, TetriminoType type) const {
 }
 
 bool Tetris::GoNextTetrimino() {
+    RemoveFullLines();
+
     const int ix = 0, iy = 3, irot = 0;
     if (CheckCollision(ix, iy, irot, queue[0])) {
         return false;
@@ -98,6 +111,28 @@ bool Tetris::GoNextTetrimino() {
         AddBatchInQueue();
     }
 
+    return true;
+}
+
+int Tetris::RemoveFullLines() {
+    int lines = 0;
+    for (int i = BOARD_HEIGHT - 1; i >= 0; i--) {
+        if (IsFullLine(i)) {
+            lines++;
+        } else {
+            for (int j = 0; j < BOARD_WIDTH; j++) {
+                board[i+lines][j] = board[i][j];
+            }
+        }
+    }
+    return lines;
+}
+
+bool Tetris::IsFullLine(int x) const {
+    for (int i = 0; i < BOARD_WIDTH; i++) {
+        if (board[x][i] == BOARD_EMPTY)
+            return false;
+    }
     return true;
 }
 
@@ -139,7 +174,7 @@ bool Tetris::Swap() {
 
 bool Tetris::HardDrop() {
     while (Drop());
-    
+
     Materialize(board, currTetrimino);
 
     return GoNextTetrimino();
