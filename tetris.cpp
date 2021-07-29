@@ -3,10 +3,13 @@
 
 #include <algorithm>
 #include <numeric>
+#include <ctime>
 
 using namespace tetris;
 
 Tetris::Tetris(): board(BOARD_HEIGHT), swappable(true), swap(BOARD_EMPTY) {
+    std::srand(std::time(0));
+
     for (int i = 0; i < BOARD_HEIGHT; i++) {
         board[i] = std::vector<TetriminoType>(BOARD_WIDTH, BOARD_EMPTY);
     }
