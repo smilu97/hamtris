@@ -1,5 +1,6 @@
 #include "game.h"
 #include "shape.h"
+#include "input.h"
 
 #include <iostream>
 #include <termio.h>
@@ -7,18 +8,8 @@
 
 using namespace tetris;
 
-void PrepareInput() {
-    struct termios buf, save;
-    tcgetattr(0,&save);
-    buf = save;
-    buf.c_lflag &= ~(ICANON|ECHO);
-    buf.c_cc[VMIN] = 1;
-    buf.c_cc[VTIME] = 0;
-    tcsetattr(0, TCSAFLUSH, &buf);
-}
-
 void PrepareSystem() {
-    PrepareInput();
+    PrepareKbhit();
 }
 
 void TetrisGame::Run() {
@@ -29,9 +20,10 @@ void TetrisGame::Run() {
 
     ResetTimer();
     std::thread th_input(&TetrisGame::InputThreadFunc, this);
+    std::thread th_timer(&TetrisGame::TimerThreadFunc, this);
 
-    TimerThreadFunc();
     th_input.join();
+    th_timer.join();
 }
 
 void TetrisGame::TimerThreadFunc() {
@@ -53,7 +45,11 @@ void TetrisGame::TimerThreadFunc() {
 
 void TetrisGame::InputThreadFunc() {
     while (true) {
-        if (gameOver) break;
+        if (kbhit() == false) {
+            if (gameOver) break;
+            std::this_thread::sleep_for(std::chrono::milliseconds(15));
+            continue;
+        }
 
         int ch = getchar();
         
@@ -74,10 +70,10 @@ void TetrisGame::InputThreadFunc() {
                     }
                 }
                 break;
-            case 99: // c
+            case 122: // z
                 tetris.Rotate(false);
                 break;
-            case 122: // z
+            case 99: // c
                 tetris.Swap();
                 break;
             case 32: // space
