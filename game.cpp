@@ -7,8 +7,7 @@
 
 using namespace tetris;
 
-int getch(void){
-    int ch;
+void PrepareInput() {
     struct termios buf, save;
     tcgetattr(0,&save);
     buf = save;
@@ -16,12 +15,15 @@ int getch(void){
     buf.c_cc[VMIN] = 1;
     buf.c_cc[VTIME] = 0;
     tcsetattr(0, TCSAFLUSH, &buf);
-    ch = getchar();
-    tcsetattr(0, TCSAFLUSH, &save);
-    return ch;
+}
+
+void PrepareSystem() {
+    PrepareInput();
 }
 
 void TetrisGame::Run() {
+    PrepareSystem();
+
     std::cout << "\x1b[2J";
     Render();
 
@@ -53,12 +55,12 @@ void TetrisGame::InputThreadFunc() {
     while (true) {
         if (gameOver) break;
 
-        int ch = getch();
+        int ch = getchar();
         
         switch (ch) {
             case 27:
-                if (getch() == 91) {
-                    int b = getch();
+                if (getchar() == 91) {
+                    int b = getchar();
                     if (b == 65) { // up
                         tetris.Rotate(true);
                     } else if (b == 66) { // right
