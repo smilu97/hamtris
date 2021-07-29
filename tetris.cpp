@@ -98,20 +98,25 @@ bool Tetris::CheckCollision(int x, int y, int rot, TetriminoType type) const {
 bool Tetris::GoNextTetrimino() {
     RemoveFullLines();
 
+    TetriminoType nextType = PopQueue();
+
     const int ix = 0, iy = 3, irot = 0;
-    if (CheckCollision(ix, iy, irot, queue[0])) {
+    if (CheckCollision(ix, iy, irot, nextType)) {
         return false;
     }
 
-    currTetrimino = Tetrimino(ix, iy, irot, queue[0]);
+    currTetrimino = Tetrimino(ix, iy, irot, nextType);
     swappable = true;
+    return true;
+}
 
+TetriminoType Tetris::PopQueue() {
+    TetriminoType type = queue[0];
     queue.pop_front();
     if (queue.size() < 7) {
         AddBatchInQueue();
     }
-
-    return true;
+    return type;
 }
 
 int Tetris::RemoveFullLines() {
@@ -163,6 +168,10 @@ bool Tetris::Move(bool right) {
 bool Tetris::Swap() {
     if (!swappable) return false;
     swappable = false;
+
+    if (swap == 0) {
+        swap = PopQueue();
+    }
     
     const int ix = 0, iy = 3, irot = 0;
     TetriminoType currType = currTetrimino.type;

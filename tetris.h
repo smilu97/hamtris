@@ -43,6 +43,7 @@ namespace tetris {
         bool Move(int dx, int dy, int rot);
         bool CheckCollision(int x, int y, int rot, TetriminoType type) const;        
         bool GoNextTetrimino();
+        TetriminoType PopQueue();
         int RemoveFullLines();
         bool IsFullLine(int x) const;
 
