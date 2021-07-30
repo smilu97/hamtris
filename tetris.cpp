@@ -152,25 +152,30 @@ bool Tetris::Drop() {
     return Move(1, 0, 0);
 }
 
-bool Tetris::TryWallKick(int dy, int d_rot) {
-    if (Move(0, dy, 0)) {
-        if (false == Move(0, 0, d_rot)) {
-            Move(0, -dy, 0); // Undo wall kick
-            return false;
-        }
-    }
+bool Tetris::TryWallKick(int dx, int dy, int d_rot) {
+    int x = currTetrimino.x, y = currTetrimino.y, rot = currTetrimino.rot;
+    TetriminoType type = currTetrimino.type;
+    if (CheckCollision(x + dx, y + dy, (rot + d_rot) % 4, type)) return false;
+    Move(dx, dy, d_rot);
     return true;
 }
 
 bool Tetris::Rotate(bool cw) {
     const int d_rot = cw ? 1 : 3;
-    if (Move(0, 0, d_rot))
-        return true;
+    const TetriminoType type = currTetrimino.type;
     
-    if (TryWallKick(1, d_rot)) return true;
-    if (TryWallKick(2, d_rot)) return true;
-    if (TryWallKick(-1, d_rot)) return true;
-    if (TryWallKick(-2, d_rot)) return true;
+    if (TryWallKick(0,  0, d_rot)) return true;
+
+    if (type == O_TETRIMINO) return false;
+
+    if (TryWallKick( 0,  1, d_rot)) return true;
+    if (TryWallKick( 1,  1, d_rot)) return true;
+    if (TryWallKick(-1,  1, d_rot)) return true;
+    if (TryWallKick( 0,  2, d_rot)) return true;
+    if (TryWallKick( 0, -1, d_rot)) return true;
+    if (TryWallKick( 1, -1, d_rot)) return true;
+    if (TryWallKick(-1, -1, d_rot)) return true;
+    if (TryWallKick( 0, -2, d_rot)) return true;
 
     return false;
 }
