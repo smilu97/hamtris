@@ -152,8 +152,27 @@ bool Tetris::Drop() {
     return Move(1, 0, 0);
 }
 
+bool Tetris::TryWallKick(int dy, int d_rot) {
+    if (Move(0, dy, 0)) {
+        if (false == Move(0, 0, d_rot)) {
+            Move(0, -dy, 0); // Undo wall kick
+            return false;
+        }
+    }
+    return true;
+}
+
 bool Tetris::Rotate(bool cw) {
-    return Move(0, 0, cw ? 1 : 3);
+    const int d_rot = cw ? 1 : 3;
+    if (Move(0, 0, d_rot))
+        return true;
+    
+    if (TryWallKick(1, d_rot)) return true;
+    if (TryWallKick(2, d_rot)) return true;
+    if (TryWallKick(-1, d_rot)) return true;
+    if (TryWallKick(-2, d_rot)) return true;
+
+    return false;
 }
 
 bool Tetris::Step() {

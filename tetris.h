@@ -46,6 +46,7 @@ namespace tetris {
         TetriminoType PopQueue();
         int RemoveFullLines();
         bool IsFullLine(int x) const;
+        bool TryWallKick(int dy, int d_rot);
 
     public:
         Tetris();
