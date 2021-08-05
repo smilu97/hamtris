@@ -32,3 +32,15 @@ void switchForeBackground(Color color) {
   switchForeground(color);
   switchBackground(color);
 }
+
+Color ToDarkColor(Color color) {
+  if (color == COLOR_RED) return COLOR_RED_DARK;
+  if (color == COLOR_GREEN) return COLOR_GREEN_DARK;
+  if (color == COLOR_YELLOW) return COLOR_YELLOW_DARK;
+  if (color == COLOR_BLUE) return COLOR_BLUE_DARK;
+  if (color == COLOR_VIOLET) return COLOR_VIOLET_DARK;
+  if (color == COLOR_CYAN) return COLOR_CYAN_DARK;
+  if (color == COLOR_ORANGE) return COLOR_ORANGE_DARK;
+  
+  return COLOR_RESET;
+}
