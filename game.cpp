@@ -110,20 +110,29 @@ void TetrisGame::ResetTimer() {
 void TetrisGame::Render() {
     screen.Reset();
 
+    const int boardOffsetX = 0;
+    const int boardOffsetY = 0;
+
+    const int queueOffsetX = 0;
+    const int queueOffsetY = boardOffsetY + 26;
+
+    const int scoreOffsetX = 21;
+    const int scoreOffsetY = 25;
+
     for (int i = 0; i < BOARD_WIDTH + 2; i++) {
-        screen.DrawBox(COLOR_BLACK, 0, i << 1);
-        screen.DrawBox(COLOR_BLACK, 21, i << 1);
+        screen.DrawBox(COLOR_BLACK, boardOffsetX, boardOffsetY + (i << 1));
+        screen.DrawBox(COLOR_BLACK, boardOffsetX + 21, boardOffsetY + (i << 1));
     }
     for (int i = 0; i < BOARD_HEIGHT; i++) {
-        screen.DrawBox(COLOR_BLACK, i + 1, 0);
-        screen.DrawBox(COLOR_BLACK, i + 1, (BOARD_WIDTH + 1) << 1);
+        screen.DrawBox(COLOR_BLACK, boardOffsetX + i + 1, boardOffsetY);
+        screen.DrawBox(COLOR_BLACK, boardOffsetX + i + 1, boardOffsetY + ((BOARD_WIDTH + 1) << 1));
     }
 
     tetris::Board view = tetris.GetBoardView();
 
     for (int i = 0; i < BOARD_HEIGHT; i++) {
         for (int j = 0; j < BOARD_WIDTH; j++) {
-            screen.DrawBox(TetriminoTypeToColor(view[i][j]), i + 1, (j + 1) << 1);
+            screen.DrawBox(TetriminoTypeToColor(view[i][j]), boardOffsetX + i + 1, boardOffsetY + ((j + 1) << 1));
         }
     }
 
@@ -134,12 +143,12 @@ void TetrisGame::Render() {
         for (int i = 0; i < sz_tetrimino_shape; i++) {
             for (int j = 0; j < sz_tetrimino_shape; j++) {
                 if (!shape[i*sz_tetrimino_shape+j]) continue;
-                screen.DrawBox(TetriminoTypeToColor(queue[k]), k*4 + i, (13 + j) << 1);
+                screen.DrawBox(TetriminoTypeToColor(queue[k]), queueOffsetX + k*4 + i, queueOffsetY + (j << 1));
             }
         }
     }
 
-    screen.DrawString(COLOR_RESET, 21, 25, "SCORE: " + std::to_string(tetris.GetScore()));
+    screen.DrawString(COLOR_RESET, scoreOffsetX, scoreOffsetY, "SCORE: " + std::to_string(tetris.GetScore()));
     
     screen.Render();
 }
