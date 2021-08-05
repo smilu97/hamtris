@@ -1,6 +1,6 @@
 #include "game.h"
 #include "shape.h"
-#include "input.h"
+#include "io.h"
 
 #include <iostream>
 #include <termio.h>
@@ -109,7 +109,7 @@ void TetrisGame::Render() {
 
     for (int i = 0; i < BOARD_HEIGHT; i++) {
         for (int j = 0; j < BOARD_WIDTH; j++) {
-            buf[1+i][1+j] = view[i][j] ? 1 : 2;
+            buf[1+i][1+j] = view[i][j] + 2;
         }
     }
 
@@ -119,16 +119,25 @@ void TetrisGame::Render() {
         const int * shape = tetrimino_shapes[queue[k]-1][0];
         for (int i = 0; i < sz_tetrimino_shape; i++) {
             for (int j = 0; j < sz_tetrimino_shape; j++) {
-                buf[k*4+i][13+j] = shape[i*sz_tetrimino_shape+j];
+                buf[k*4+i][13+j] = shape[i*sz_tetrimino_shape+j] * (queue[k] + 2);
             }
         }
     }
 
     for (int i = 0; i < 22; i++) {
         for (int j = 0; j < 17; j++) {
-            if (buf[i][j] == 1) std::cout << "@";
-            else if (buf[i][j] == 2) std::cout << ".";
-            else std::cout << " ";
+                 if (buf[i][j] ==  1) switchForeBackground(COLOR_BLACK); // WALL
+            else if (buf[i][j] ==  2) switchForeBackground(COLOR_RESET); // EMPTY BOARD
+            else if (buf[i][j] ==  3) switchForeBackground(COLOR_CYAN); // I_TETRIMINO
+            else if (buf[i][j] ==  4) switchForeBackground(COLOR_BLUE); // J_TETRIMINO
+            else if (buf[i][j] ==  5) switchForeBackground(COLOR_ORANGE); // L_TETRIMINO
+            else if (buf[i][j] ==  6) switchForeBackground(COLOR_GREEN); // S_TETRIMINO
+            else if (buf[i][j] ==  7) switchForeBackground(COLOR_VIOLET); // T_TETRIMINO
+            else if (buf[i][j] ==  8) switchForeBackground(COLOR_RED); // Z_TETRIMINO
+            else if (buf[i][j] ==  9) switchForeBackground(COLOR_YELLOW); // O_TETRIMINO
+            else if (buf[i][j] == 10) switchForeBackground(COLOR_GRAY); // SHADOW
+            else switchForeBackground(COLOR_RESET);
+            std::cout << "  ";
         }
         std::cout << std::endl;
     }
