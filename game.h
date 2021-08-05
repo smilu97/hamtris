@@ -4,8 +4,10 @@
 #include "tetris.h"
 #include "screen.h"
 
+#include <mutex>
 namespace tetris {
     class TetrisGame {
+        std::mutex mtx;
         Tetris tetris;
         Screen screen;
         int stepTimerCount;

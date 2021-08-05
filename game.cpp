@@ -1,15 +1,12 @@
 #include "game.h"
 #include "shape.h"
+#include "io.h"
 
 #include <iostream>
 #include <termio.h>
 #include <thread>
 
 using namespace tetris;
-
-void PrepareSystem() {
-    PrepareKbhit();
-}
 
 Color TetriminoTypeToColor(TetriminoType type) {
     if (type == BOARD_EMPTY) return COLOR_RESET;
@@ -25,7 +22,7 @@ Color TetriminoTypeToColor(TetriminoType type) {
 }
 
 TetrisGame::TetrisGame():
-    screen(22, 40),
+    screen(22, 60),
     stepTimerCount(0),
     gameOver(false) {
 
@@ -36,7 +33,7 @@ TetrisGame::~TetrisGame() {
 }
 
 void TetrisGame::Run() {
-    PrepareSystem();
+    PrepareInput();
     Render();
 
     ResetTimer();
@@ -55,25 +52,22 @@ void TetrisGame::TimerThreadFunc() {
         stepTimerCount--;
         if (stepTimerCount <= 0) {
             ResetTimer();
+            mtx.lock();
             if (false == tetris.Step()) {
                 gameOver = true;
                 break;
             }
             Render();
+            mtx.unlock();
         }
     }
 }
 
 void TetrisGame::InputThreadFunc() {
     while (true) {
-        if (kbhit() == false) {
-            if (gameOver) break;
-            std::this_thread::sleep_for(std::chrono::milliseconds(15));
-            continue;
-        }
-
         int ch = getchar();
         
+        mtx.lock();
         switch (ch) {
             case 27:
                 if (getchar() == 91) {
@@ -105,6 +99,7 @@ void TetrisGame::InputThreadFunc() {
                 break;
         }
         Render();
+        mtx.unlock();
     }
 }
 

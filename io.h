@@ -6,9 +6,7 @@
 #include <unistd.h>
 #include <fcntl.h>
  
-void PrepareKbhit();
-
-int kbhit(void);
+void PrepareInput();
 
 enum Color {
   COLOR_RESET = 0,
