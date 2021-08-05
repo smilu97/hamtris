@@ -37,6 +37,7 @@ namespace tetris {
         Tetrimino currTetrimino;
         TetriminoType swap;
         bool swappable;
+        int score;
 
         static void Materialize(Board & targetBoard, const Tetrimino & tetrimino);
 
@@ -48,6 +49,7 @@ namespace tetris {
         int RemoveFullLines();
         bool IsFullLine(int x) const;
         bool TryWallKick(int dx, int dy, int d_rot);
+        void AddScore(int numRemovedLines);
 
     public:
         Tetris();
@@ -60,6 +62,7 @@ namespace tetris {
         bool HardDrop();
 
         const TetriminoQueue& GetQueue() const { return queue; }
+        int GetScore() const { return score; }
         const Board GetBoardView() const;
         std::vector< std::pair<int, int> > GetShadow() const;
     };

@@ -7,7 +7,7 @@
 
 using namespace tetris;
 
-Tetris::Tetris(): board(BOARD_HEIGHT), swappable(true), swap(BOARD_EMPTY) {
+Tetris::Tetris(): board(BOARD_HEIGHT), swappable(true), swap(BOARD_EMPTY), score(0) {
     std::srand(std::time(0));
 
     for (int i = 0; i < BOARD_HEIGHT; i++) {
@@ -98,8 +98,16 @@ bool Tetris::CheckCollision(int x, int y, int rot, TetriminoType type) const {
     return false;
 }
 
+void Tetris::AddScore(int numRemovedLines) {
+    if (numRemovedLines == 4) {
+        score += 80;
+    } else {
+        score += 10 * numRemovedLines;
+    }
+}
+
 bool Tetris::GoNextTetrimino() {
-    RemoveFullLines();
+    AddScore(RemoveFullLines());
 
     TetriminoType nextType = PopQueue();
 

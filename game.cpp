@@ -25,7 +25,7 @@ Color TetriminoTypeToColor(TetriminoType type) {
 }
 
 TetrisGame::TetrisGame():
-    screen(22, 34),
+    screen(22, 40),
     stepTimerCount(0),
     gameOver(false) {
 
@@ -143,6 +143,8 @@ void TetrisGame::Render() {
             }
         }
     }
+
+    screen.DrawString(COLOR_RESET, 21, 25, "SCORE: " + std::to_string(tetris.GetScore()));
     
     screen.Render();
 }
