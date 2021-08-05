@@ -255,3 +255,15 @@ std::vector< std::pair<int, int> > Tetris::GetShadow() const {
 
     return shadow;
 }
+
+std::vector< std::vector<int> > Tetris::GetTetriminoShape(TetriminoType type) const {
+    const int n = sz_tetrimino_shape;
+    std::vector< std::vector<int> > shape(n, std::vector<int>(n));
+    const int * ref = tetrimino_shapes[type - 1][0];
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            shape[i][j] = ref[i*n + j];
+        }
+    }
+    return shape;
+}

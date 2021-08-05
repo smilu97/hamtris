@@ -110,14 +110,26 @@ void TetrisGame::ResetTimer() {
 void TetrisGame::Render() {
     screen.Reset();
 
+    const int swapOffsetX = 0;
+    const int swapOffsetY = 0;
+
     const int boardOffsetX = 0;
-    const int boardOffsetY = 0;
+    const int boardOffsetY = swapOffsetY + 10;
 
     const int queueOffsetX = 0;
     const int queueOffsetY = boardOffsetY + 26;
 
     const int scoreOffsetX = 21;
-    const int scoreOffsetY = 25;
+    const int scoreOffsetY = boardOffsetY + 25;
+
+    TetriminoType swap = tetris.GetSwap();
+    auto swapShape = tetris.GetTetriminoShape(swap);
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+            if (swapShape[i][j] == 0) continue;
+            screen.DrawBox(TetriminoTypeToColor(swap), swapOffsetX + i, swapOffsetY + (j << 1));
+        }
+    }
 
     for (int i = 0; i < BOARD_WIDTH + 2; i++) {
         screen.DrawBox(COLOR_BLACK, boardOffsetX, boardOffsetY + (i << 1));

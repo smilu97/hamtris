@@ -63,8 +63,10 @@ namespace tetris {
 
         const TetriminoQueue& GetQueue() const { return queue; }
         int GetScore() const { return score; }
+        TetriminoType GetSwap() const { return swap; }
         const Board GetBoardView() const;
         std::vector< std::pair<int, int> > GetShadow() const;
+        std::vector< std::vector<int> > GetTetriminoShape(TetriminoType type) const;
     };
 }
 
