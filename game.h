@@ -2,10 +2,12 @@
 #define __GAME_H__
 
 #include "tetris.h"
+#include "screen.h"
 
 namespace tetris {
     class TetrisGame {
         Tetris tetris;
+        Screen screen;
         int stepTimerCount;
         bool gameOver;
 
@@ -14,6 +16,9 @@ namespace tetris {
         void ResetTimer();
         void Render();
     public:
+        TetrisGame();
+        ~TetrisGame();
+
         void Run();
     };
 }

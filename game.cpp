@@ -1,6 +1,5 @@
 #include "game.h"
 #include "shape.h"
-#include "io.h"
 
 #include <iostream>
 #include <termio.h>
@@ -12,10 +11,32 @@ void PrepareSystem() {
     PrepareKbhit();
 }
 
+Color TetriminoTypeToColor(TetriminoType type) {
+    if (type == BOARD_EMPTY) return COLOR_RESET;
+    if (type == I_TETRIMINO) return COLOR_CYAN;
+    if (type == J_TETRIMINO) return COLOR_BLUE;
+    if (type == L_TETRIMINO) return COLOR_ORANGE;
+    if (type == S_TETRIMINO) return COLOR_GREEN;
+    if (type == T_TETRIMINO) return COLOR_VIOLET;
+    if (type == Z_TETRIMINO) return COLOR_RED;
+    if (type == O_TETRIMINO) return COLOR_YELLOW;
+    if (type == SHADOW_BLOCK) return COLOR_GRAY;
+    return COLOR_RESET;
+}
+
+TetrisGame::TetrisGame():
+    screen(22, 34),
+    stepTimerCount(0),
+    gameOver(false) {
+
+}
+
+TetrisGame::~TetrisGame() {
+
+}
+
 void TetrisGame::Run() {
     PrepareSystem();
-
-    std::cout << "\x1b[2J";
     Render();
 
     ResetTimer();
@@ -92,24 +113,22 @@ void TetrisGame::ResetTimer() {
 }
 
 void TetrisGame::Render() {
-    std::cout << "\x1b[H";
-
-    std::vector< std::vector<int> > buf(22, std::vector<int>(17, 0));
+    screen.Reset();
 
     for (int i = 0; i < BOARD_WIDTH + 2; i++) {
-        buf[0][i] = 1;
-        buf[21][i] = 1;
+        screen.DrawBox(COLOR_BLACK, 0, i << 1);
+        screen.DrawBox(COLOR_BLACK, 21, i << 1);
     }
     for (int i = 0; i < BOARD_HEIGHT; i++) {
-        buf[1+i][0] = 1;
-        buf[1+i][BOARD_WIDTH+1] = 1;
+        screen.DrawBox(COLOR_BLACK, i + 1, 0);
+        screen.DrawBox(COLOR_BLACK, i + 1, (BOARD_WIDTH + 1) << 1);
     }
 
     tetris::Board view = tetris.GetBoardView();
 
     for (int i = 0; i < BOARD_HEIGHT; i++) {
         for (int j = 0; j < BOARD_WIDTH; j++) {
-            buf[1+i][1+j] = view[i][j] + 2;
+            screen.DrawBox(TetriminoTypeToColor(view[i][j]), i + 1, (j + 1) << 1);
         }
     }
 
@@ -119,26 +138,11 @@ void TetrisGame::Render() {
         const int * shape = tetrimino_shapes[queue[k]-1][0];
         for (int i = 0; i < sz_tetrimino_shape; i++) {
             for (int j = 0; j < sz_tetrimino_shape; j++) {
-                buf[k*4+i][13+j] = shape[i*sz_tetrimino_shape+j] * (queue[k] + 2);
+                if (!shape[i*sz_tetrimino_shape+j]) continue;
+                screen.DrawBox(TetriminoTypeToColor(queue[k]), k*4 + i, (13 + j) << 1);
             }
         }
     }
-
-    for (int i = 0; i < 22; i++) {
-        for (int j = 0; j < 17; j++) {
-                 if (buf[i][j] ==  1) switchForeBackground(COLOR_BLACK); // WALL
-            else if (buf[i][j] ==  2) switchForeBackground(COLOR_RESET); // EMPTY BOARD
-            else if (buf[i][j] ==  3) switchForeBackground(COLOR_CYAN); // I_TETRIMINO
-            else if (buf[i][j] ==  4) switchForeBackground(COLOR_BLUE); // J_TETRIMINO
-            else if (buf[i][j] ==  5) switchForeBackground(COLOR_ORANGE); // L_TETRIMINO
-            else if (buf[i][j] ==  6) switchForeBackground(COLOR_GREEN); // S_TETRIMINO
-            else if (buf[i][j] ==  7) switchForeBackground(COLOR_VIOLET); // T_TETRIMINO
-            else if (buf[i][j] ==  8) switchForeBackground(COLOR_RED); // Z_TETRIMINO
-            else if (buf[i][j] ==  9) switchForeBackground(COLOR_YELLOW); // O_TETRIMINO
-            else if (buf[i][j] == 10) switchForeBackground(COLOR_GRAY); // SHADOW
-            else switchForeBackground(COLOR_RESET);
-            std::cout << "  ";
-        }
-        std::cout << std::endl;
-    }
+    
+    screen.Render();
 }
