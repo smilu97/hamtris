@@ -16,6 +16,7 @@ enum TetriminoType {
     T_TETRIMINO = 5,
     Z_TETRIMINO = 6,
     O_TETRIMINO = 7,
+    SHADOW_BLOCK = 8,
 };
 
 namespace tetris {
@@ -60,6 +61,7 @@ namespace tetris {
 
         const TetriminoQueue& GetQueue() const { return queue; }
         const Board GetBoardView() const;
+        std::vector< std::pair<int, int> > GetShadow() const;
     };
 }
 

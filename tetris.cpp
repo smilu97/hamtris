@@ -218,6 +218,32 @@ bool Tetris::HardDrop() {
 
 const Board Tetris::GetBoardView() const {
     Board boardView(board);
+
+    std::vector< std::pair<int, int> > shadow = GetShadow();
+    for (std::pair<int, int> coord: shadow) {
+        boardView[coord.first][coord.second] = SHADOW_BLOCK;
+    }
+
     Materialize(boardView, currTetrimino);
+
     return boardView;
+}
+
+std::vector< std::pair<int, int> > Tetris::GetShadow() const {
+    std::vector< std::pair<int, int> > shadow;
+
+    int x = currTetrimino.x, y = currTetrimino.y, rot = currTetrimino.rot;
+    TetriminoType type = currTetrimino.type;
+
+    while (!CheckCollision(x, y, rot, type)) ++x;
+    --x;
+
+    for (int i = 0; i < sz_tetrimino_shape; i++) {
+        for (int j = 0; j < sz_tetrimino_shape; j++) {
+            if (tetrimino_shapes[type - 1][rot][i*sz_tetrimino_shape + j] == 0) continue;
+            shadow.push_back(std::make_pair(x + i, y + j));
+        }
+    }
+
+    return shadow;
 }
