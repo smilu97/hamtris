@@ -1,5 +1,6 @@
 #include "tetris.h"
 #include "shape.h"
+#include "wallkick.h"
 
 #include <algorithm>
 #include <numeric>
@@ -176,14 +177,24 @@ bool Tetris::Rotate(bool cw) {
 
     if (type == O_TETRIMINO) return false;
 
-    if (TryWallKick( 0,  1, d_rot)) return true;
-    if (TryWallKick( 1,  1, d_rot)) return true;
-    if (TryWallKick(-1,  1, d_rot)) return true;
-    if (TryWallKick( 0,  2, d_rot)) return true;
-    if (TryWallKick( 0, -1, d_rot)) return true;
-    if (TryWallKick( 1, -1, d_rot)) return true;
-    if (TryWallKick(-1, -1, d_rot)) return true;
-    if (TryWallKick( 0, -2, d_rot)) return true;
+    const int curr_rot = currTetrimino.rot;
+    const int next_rot = (curr_rot + d_rot) % 4;
+    const int kick_index = wallkick_lookup_index[curr_rot][next_rot];
+
+    int (*kick_table)[2] = (type == I_TETRIMINO ? wallkick_table_i : wallkick_table_jlstz)[kick_index];
+    for (int i = 0; i < 5; i++) {
+        if (TryWallKick(-kick_table[i][1], kick_table[i][0], d_rot))
+            return true;
+    }
+
+    // if (TryWallKick( 0,  1, d_rot)) return true;
+    // if (TryWallKick( 1,  1, d_rot)) return true;
+    // if (TryWallKick(-1,  1, d_rot)) return true;
+    // if (TryWallKick( 0,  2, d_rot)) return true;
+    // if (TryWallKick( 0, -1, d_rot)) return true;
+    // if (TryWallKick( 1, -1, d_rot)) return true;
+    // if (TryWallKick(-1, -1, d_rot)) return true;
+    // if (TryWallKick( 0, -2, d_rot)) return true;
 
     return false;
 }
