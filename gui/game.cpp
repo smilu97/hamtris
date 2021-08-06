@@ -47,20 +47,20 @@ void TetrisGame::Update() {
 void TetrisGame::Render() {
     glClear(GL_COLOR_BUFFER_BIT);
     
-    for (int i = 0; i < 22; i++) {
+    for (int i = 1; i <= 22; i++) {
         DrawTetriminoBox(WALL_TETRIMINO, i, 6);
         DrawTetriminoBox(WALL_TETRIMINO, i, 17);
     }
     for (int i = 7; i <= 16; i++) {
-        DrawTetriminoBox(WALL_TETRIMINO, 0, i);
-        DrawTetriminoBox(WALL_TETRIMINO, 21, i);
+        DrawTetriminoBox(WALL_TETRIMINO, 1, i);
+        DrawTetriminoBox(WALL_TETRIMINO, 22, i);
     }
 
     auto view = tetris.GetBoardView();
     for (int i = 0; i < 20; i++) {
         for (int j = 0; j < 10; j++) {
             if (view[i][j] != 0) {
-                DrawTetriminoBox(view[i][j], i+1, j+7);
+                DrawTetriminoBox(view[i][j], i+2, j+7);
             }
         }
     }
@@ -68,7 +68,7 @@ void TetrisGame::Render() {
     auto queue = tetris.GetQueue();
     for (int i = 0; i < 5; i++) {
         TetriminoType type = queue[i];
-        DrawTetrimino(type, i << 2, 19);
+        DrawTetrimino(type, (i << 2) + 1, 19);
     }
 
     auto swap = tetris.GetSwap();
@@ -134,7 +134,7 @@ void TetrisGame::DrawTetriminoBox(TetriminoType type, int x, int y) {
     float boxHeight = boxSize / screenHeight;
     float gl_x1 = -1.0 + y * boxWidth;
     float gl_y1 = 1.0 - (x+1) * boxHeight;
-    (type >= I_TETRIMINO_SHADOW ? shadowSprite : blockSprite)
+    (type >= I_TETRIMINO_SHADOW && type <= O_TETRIMINO_SHADOW ? shadowSprite : blockSprite)
         .Draw(gl_x1, gl_y1, boxWidth, boxHeight, tetrimino_sprite_x[type]/512.,4./512.,36./512.,36./512.);
 }
 
