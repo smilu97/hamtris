@@ -1,5 +1,5 @@
 CC := g++
-CFLAGS := --std=c++17 -pthread -Icommon -Icui -Igui -lglut -lGLU -lGL
+CFLAGS := --std=c++17 -pthread -Icommon -Icui -Igui -lglut -lGLU -lGL -lpng
 
 CUI_OBJS := \
 	objs/common/tetris.o \
@@ -11,7 +11,8 @@ CUI_OBJS := \
 GUI_OBJS := \
 	objs/common/tetris.o \
 	objs/gui/main.o \
-	objs/gui/game.o
+	objs/gui/game.o \
+	objs/gui/image.o
 
 build_cui:
 	mkdir -p objs/cui
@@ -39,6 +40,7 @@ build_gui:
 	# Build GUI-related objects
 	$(CC) $(CFLAGS) -c -o objs/gui/main.o gui/main.cpp
 	$(CC) $(CFLAGS) -c -o objs/gui/game.o gui/game.cpp
+	$(CC) $(CFLAGS) -c -o objs/gui/image.o gui/image.cpp
 
 	# Build binary
 	$(CC) -o tetris $(GUI_OBJS) $(CFLAGS)
