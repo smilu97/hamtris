@@ -13,7 +13,7 @@ TetrisGame::TetrisGame():
 }
 
 TetrisGame::~TetrisGame() {
-
+    FreePngImage(&image);
 }
 
 void TetrisGame::Init(int * argc, char ** argv,
@@ -22,6 +22,8 @@ void TetrisGame::Init(int * argc, char ** argv,
     KeyboardFunc keyboardFunc,
     SpecialFunc specialFunc
 ) {
+    image = ReadPngFile("./static/sprite.png");
+
     glutInit(argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
     glutInitWindowSize(screenWidth, screenHeight);

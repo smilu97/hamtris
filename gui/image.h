@@ -3,10 +3,9 @@
 
 #include <png.h>
 
-int x, y;
-
 struct PngImage {
     int width, height;
+    int x, y;
     png_byte color_type;
     png_byte bit_depth;
 
@@ -16,8 +15,10 @@ struct PngImage {
     png_bytep * row_pointers;
 };
 
-void abort_(const char * s, ...);
+void Abort(const char * s, ...);
 
-PngImage read_png_file(char* file_name);
+PngImage ReadPngFile(const char* file_name);
+
+void FreePngImage(const PngImage * image);
 
 #endif

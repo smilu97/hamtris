@@ -3,6 +3,7 @@
 
 #include "tetris.h"
 #include "color.h"
+#include "image.h"
 
 using namespace tetris;
 
@@ -21,6 +22,8 @@ class TetrisGame {
     int oldTime;
     int stepTimer;
     int stepTimeThreshold;
+
+    PngImage image;
 
     int GetDt(); // Get delta time in milliseconds
     bool StepTimer(int dt);
