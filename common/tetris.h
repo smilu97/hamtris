@@ -23,6 +23,7 @@ enum TetriminoType {
     T_TETRIMINO_SHADOW = 12,
     Z_TETRIMINO_SHADOW = 13,
     O_TETRIMINO_SHADOW = 14,
+    WALL_TETRIMINO = 15,
 };
 
 namespace tetris {
