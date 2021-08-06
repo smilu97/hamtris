@@ -2,21 +2,21 @@
 #define __COLOR_H__
 
 const float tetrimino_colors[][3] = {
-    {1.0, 1.0, 1.0}, // BOARD_EMPTY
-    {1.0, 1.0, 1.0}, // I_TETRIMINO
-    {1.0, 1.0, 1.0}, // J_TETRIMINO
-    {1.0, 1.0, 1.0}, // L_TETRIMINO
-    {1.0, 1.0, 1.0}, // S_TETRIMINO
-    {1.0, 1.0, 1.0}, // T_TETRIMINO
-    {1.0, 1.0, 1.0}, // Z_TETRIMINO
-    {1.0, 1.0, 1.0}, // O_TETRIMINO
-    {1.0, 1.0, 1.0}, // I_TETRIMINO_SHADOW
-    {1.0, 1.0, 1.0}, // J_TETRIMINO_SHADOW
-    {1.0, 1.0, 1.0}, // L_TETRIMINO_SHADOW
-    {1.0, 1.0, 1.0}, // S_TETRIMINO_SHADOW
-    {1.0, 1.0, 1.0}, // T_TETRIMINO_SHADOW
-    {1.0, 1.0, 1.0}, // Z_TETRIMINO_SHADOW
-    {1.0, 1.0, 1.0}, // O_TETRIMINO_SHADOW
+    {0.0, 0.0, 0.0}, // BOARD_EMPTY
+    {0.0, 1.0, 1.0}, // I_TETRIMINO CYAN
+    {0.0, 0.0, 1.0}, // J_TETRIMINO BLUE
+    {1.0, 0.647, 0.0}, // L_TETRIMINO ORANGE
+    {0.0, 1.0, 0.0}, // S_TETRIMINO GREEN
+    {0.56, 0.0, 1.0}, // T_TETRIMINO VIOLET
+    {1.0, 0.0, 0.0}, // Z_TETRIMINO RED
+    {1.0, 1.0, 0.0}, // O_TETRIMINO YELLOW
+    {0.0, 0.5, 0.5}, // I_TETRIMINO_SHADOW
+    {0.0, 0.0, 0.5}, // J_TETRIMINO_SHADOW
+    {0.5, 0.32, 0.0}, // L_TETRIMINO_SHADOW
+    {0.0, 0.5, 0.0}, // S_TETRIMINO_SHADOW
+    {0.28, 0.0, 0.5}, // T_TETRIMINO_SHADOW
+    {0.5, 0.0, 0.0}, // Z_TETRIMINO_SHADOW
+    {0.5, 0.5, 0.0}, // O_TETRIMINO_SHADOW
     {0.2, 0.2, 0.2}, // WALL_TETRIMINO
 };
 
