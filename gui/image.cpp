@@ -3,6 +3,7 @@
 #include <png.h>
 #include <cstdlib>
 #include <cstdarg>
+#include <cstring>
 
 void Abort(const char * s, ...)
 {
@@ -14,6 +15,7 @@ void Abort(const char * s, ...)
     abort();
 }
 
+// ref: http://zarb.org/~gc/html/libpng.html
 PngImage ReadPngFile(const char* file_name)
 {
     PngImage image;
@@ -60,10 +62,19 @@ PngImage ReadPngFile(const char* file_name)
         Abort("[read_png_file] Error during read_image");
 
     image.row_pointers = (png_bytep*) malloc(sizeof(png_bytep) * image.height);
-    for (int y=0; y < image.height; y++)
-        image.row_pointers[y] = (png_byte*) malloc(png_get_rowbytes(image.png_ptr,image.info_ptr));
+    uint row_sz = png_get_rowbytes(image.png_ptr,image.info_ptr);
+    for (int y=0; y < image.height; y++) {
+        image.row_pointers[y] = (png_byte*) malloc(row_sz);
+    }
 
     png_read_image(image.png_ptr, image.row_pointers);
+
+    image.data = (png_bytep) malloc(row_sz * image.height);
+    for (int y = 0; y < image.height; y++) {
+        memcpy(image.data + y * row_sz, image.row_pointers[y], row_sz);
+    }
+
+    image.row_sz = row_sz;
 
     fclose(fp);
 
@@ -75,4 +86,5 @@ void FreePngImage(const PngImage * image) {
         free(image->row_pointers[y]);
     }
     free(image->row_pointers);
+    free(image->data);
 }

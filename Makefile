@@ -12,7 +12,8 @@ GUI_OBJS := \
 	objs/common/tetris.o \
 	objs/gui/main.o \
 	objs/gui/game.o \
-	objs/gui/image.o
+	objs/gui/image.o \
+	objs/gui/sprite.o
 
 build_cui:
 	mkdir -p objs/cui
@@ -41,6 +42,7 @@ build_gui:
 	$(CC) $(CFLAGS) -c -o objs/gui/main.o gui/main.cpp
 	$(CC) $(CFLAGS) -c -o objs/gui/game.o gui/game.cpp
 	$(CC) $(CFLAGS) -c -o objs/gui/image.o gui/image.cpp
+	$(CC) $(CFLAGS) -c -o objs/gui/sprite.o gui/sprite.cpp
 
 	# Build binary
 	$(CC) -o tetris $(GUI_OBJS) $(CFLAGS)

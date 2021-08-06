@@ -8,12 +8,13 @@ TetrisGame::TetrisGame():
     stepTimeThreshold(1000),
     screenWidth(800.f),
     screenHeight(600.f),
-    boxSize(50) {
+    boxSize(50),
+    sprite("./static/sprite.png") {
 
 }
 
 TetrisGame::~TetrisGame() {
-    FreePngImage(&image);
+    
 }
 
 void TetrisGame::Init(int * argc, char ** argv,
@@ -22,8 +23,6 @@ void TetrisGame::Init(int * argc, char ** argv,
     KeyboardFunc keyboardFunc,
     SpecialFunc specialFunc
 ) {
-    image = ReadPngFile("./static/sprite.png");
-
     glutInit(argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
     glutInitWindowSize(screenWidth, screenHeight);

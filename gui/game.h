@@ -4,6 +4,7 @@
 #include "tetris.h"
 #include "color.h"
 #include "image.h"
+#include "sprite.h"
 
 using namespace tetris;
 
@@ -23,7 +24,7 @@ class TetrisGame {
     int stepTimer;
     int stepTimeThreshold;
 
-    PngImage image;
+    SpriteSheet sprite;
 
     int GetDt(); // Get delta time in milliseconds
     bool StepTimer(int dt);
