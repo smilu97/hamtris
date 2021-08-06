@@ -3,13 +3,16 @@
 
 #include "image.h"
 
+#include <GL/glut.h>
 class SpriteSheet {
     PngImage image;
+    GLuint texture;
 public:
-    SpriteSheet(const char* filename);
+    SpriteSheet();
     ~SpriteSheet();
 
-    void Draw() const;
+    void Load(const char* filename);
+    void Draw(float x, float y, float w, float h, float tx, float ty, float tw, float th) const;
 };
 
 #endif

@@ -6,10 +6,9 @@
 
 TetrisGame::TetrisGame():
     stepTimeThreshold(1000),
-    screenWidth(800.f),
+    screenWidth(600.f),
     screenHeight(600.f),
-    boxSize(50),
-    sprite("./static/sprite.png") {
+    boxSize(50) {
 
 }
 
@@ -28,6 +27,9 @@ void TetrisGame::Init(int * argc, char ** argv,
     glutInitWindowSize(screenWidth, screenHeight);
     glutInitWindowPosition(100, 100);
     glutCreateWindow("Tetris");
+
+    sprite.Load("./static/sprite.png");
+
     glutDisplayFunc(displayFunc);
     glutTimerFunc(0, updateFunc, 0);
     glutKeyboardFunc(keyboardFunc);
@@ -45,10 +47,10 @@ void TetrisGame::Render() {
     glClear(GL_COLOR_BUFFER_BIT);
     
     for (int i = 0; i < 22; i++) {
-        DrawTetriminoBox(WALL_TETRIMINO, i, 5);
-        DrawTetriminoBox(WALL_TETRIMINO, i, 16);
+        DrawTetriminoBox(WALL_TETRIMINO, i, 6);
+        DrawTetriminoBox(WALL_TETRIMINO, i, 17);
     }
-    for (int i = 6; i <= 15; i++) {
+    for (int i = 7; i <= 16; i++) {
         DrawTetriminoBox(WALL_TETRIMINO, 0, i);
         DrawTetriminoBox(WALL_TETRIMINO, 21, i);
     }
@@ -57,7 +59,7 @@ void TetrisGame::Render() {
     for (int i = 0; i < 20; i++) {
         for (int j = 0; j < 10; j++) {
             if (view[i][j] != 0) {
-                DrawTetriminoBox(view[i][j], i+1, j+6);
+                DrawTetriminoBox(view[i][j], i+1, j+7);
             }
         }
     }
@@ -65,12 +67,12 @@ void TetrisGame::Render() {
     auto queue = tetris.GetQueue();
     for (int i = 0; i < 5; i++) {
         TetriminoType type = queue[i];
-        DrawTetrimino(type, i << 2, 18);
+        DrawTetrimino(type, i << 2, 19);
     }
 
     auto swap = tetris.GetSwap();
     if (swap != BOARD_EMPTY) {
-        DrawTetrimino(swap, 0, 0);
+        DrawTetrimino(swap, 0, 1);
     }
 
     glFlush();
@@ -127,12 +129,11 @@ bool TetrisGame::StepTimer(int dt) {
 }
 
 void TetrisGame::DrawTetriminoBox(TetriminoType type, int x, int y) {
-    const float * color = tetrimino_colors[type];
-    glColor3f(color[0], color[1], color[2]);
-
-    float gl_x1 = -1.0 + y * boxSize / screenWidth;
-    float gl_y1 = 1.0 - x * boxSize / screenHeight;
-    glRectf(gl_x1, gl_y1, gl_x1 + boxSize / screenWidth, gl_y1 - boxSize / screenHeight);
+    float boxWidth = boxSize / screenWidth;
+    float boxHeight = boxSize / screenHeight;
+    float gl_x1 = -1.0 + y * boxWidth;
+    float gl_y1 = 1.0 - (x+1) * boxHeight;
+    sprite.Draw(gl_x1, gl_y1, boxWidth, boxHeight, tetrimino_sprite_x[type]/512.,4./512.,36./512.,36./512.);
 }
 
 void TetrisGame::DrawTetrimino(TetriminoType type, int x, int y) {
