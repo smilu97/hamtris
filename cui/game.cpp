@@ -17,7 +17,13 @@ Color TetriminoTypeToColor(TetriminoType type) {
     if (type == T_TETRIMINO) return COLOR_VIOLET;
     if (type == Z_TETRIMINO) return COLOR_RED;
     if (type == O_TETRIMINO) return COLOR_YELLOW;
-    if (type == SHADOW_BLOCK) return COLOR_GRAY;
+    if (type == I_TETRIMINO_SHADOW) return COLOR_CYAN_DARK;
+    if (type == J_TETRIMINO_SHADOW) return COLOR_BLUE_DARK;
+    if (type == L_TETRIMINO_SHADOW) return COLOR_ORANGE_DARK;
+    if (type == S_TETRIMINO_SHADOW) return COLOR_GREEN_DARK;
+    if (type == T_TETRIMINO_SHADOW) return COLOR_VIOLET_DARK;
+    if (type == Z_TETRIMINO_SHADOW) return COLOR_RED_DARK;
+    if (type == O_TETRIMINO_SHADOW) return COLOR_YELLOW_DARK;
     return COLOR_RESET;
 }
 

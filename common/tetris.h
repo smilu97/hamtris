@@ -16,7 +16,13 @@ enum TetriminoType {
     T_TETRIMINO = 5,
     Z_TETRIMINO = 6,
     O_TETRIMINO = 7,
-    SHADOW_BLOCK = 8,
+    I_TETRIMINO_SHADOW = 8,
+    J_TETRIMINO_SHADOW = 9,
+    L_TETRIMINO_SHADOW = 10,
+    S_TETRIMINO_SHADOW = 11,
+    T_TETRIMINO_SHADOW = 12,
+    Z_TETRIMINO_SHADOW = 13,
+    O_TETRIMINO_SHADOW = 14,
 };
 
 namespace tetris {
@@ -67,6 +73,7 @@ namespace tetris {
         const Board GetBoardView() const;
         std::vector< std::pair<int, int> > GetShadow() const;
         std::vector< std::vector<int> > GetTetriminoShape(TetriminoType type) const;
+        Tetrimino GetCurrTetriminoType() const { return currTetrimino; }
     };
 }
 

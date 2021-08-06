@@ -1,13 +1,15 @@
 CC := g++
-CFLAGS := --std=c++17 -pthread
+CFLAGS := --std=c++17 -pthread -Icommon -Icui -lGL -lGLU -lglut
 
 build:
 	mkdir -p objs
-	$(CC) $(CFLAGS) -c -o objs/game.o game.cpp
-	$(CC) $(CFLAGS) -c -o objs/tetris.o tetris.cpp
-	$(CC) $(CFLAGS) -c -o objs/screen.o screen.cpp
-	$(CC) $(CFLAGS) -c -o objs/io.o io.cpp
-	$(CC) $(CFLAGS) -c -o objs/main.o main.cpp
+	mkdir -p objs/cui
+	mkdir -p objs/common
+	$(CC) $(CFLAGS) -c -o objs/cui/game.o cui/game.cpp
+	$(CC) $(CFLAGS) -c -o objs/common/tetris.o common/tetris.cpp
+	$(CC) $(CFLAGS) -c -o objs/cui/screen.o cui/screen.cpp
+	$(CC) $(CFLAGS) -c -o objs/cui/io.o cui/io.cpp
+	$(CC) $(CFLAGS) -c -o objs/cui/main.o cui/main.cpp
 	$(CC) $(CFLAGS) -o tetris objs/game.o objs/tetris.o objs/screen.o objs/io.o objs/main.o
 
 all: build

@@ -229,7 +229,7 @@ const Board Tetris::GetBoardView() const {
 
     std::vector< std::pair<int, int> > shadow = GetShadow();
     for (std::pair<int, int> coord: shadow) {
-        boardView[coord.first][coord.second] = SHADOW_BLOCK;
+        boardView[coord.first][coord.second] = (TetriminoType)((int)currTetrimino.type + 7);
     }
 
     Materialize(boardView, currTetrimino);
