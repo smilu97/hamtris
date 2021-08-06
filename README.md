@@ -4,5 +4,6 @@
 make
 ```
 
-![screenshot](./static/tetris.png)
+![screenshot-cui](./static/screenshot-cui.png)
+![screenshot-gui](./static/screenshot-gui.png)
 
