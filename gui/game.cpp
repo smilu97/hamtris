@@ -28,7 +28,8 @@ void TetrisGame::Init(int * argc, char ** argv,
     glutInitWindowPosition(100, 100);
     glutCreateWindow("Tetris");
 
-    sprite.Load("./static/sprite.png");
+    blockSprite.Load("./static/sprite.png", 1.0f);
+    shadowSprite.Load("./static/sprite.png", 0.5f);
 
     glutDisplayFunc(displayFunc);
     glutTimerFunc(0, updateFunc, 0);
@@ -72,7 +73,7 @@ void TetrisGame::Render() {
 
     auto swap = tetris.GetSwap();
     if (swap != BOARD_EMPTY) {
-        DrawTetrimino(swap, 0, 1);
+        DrawTetrimino(swap, 2, 1);
     }
 
     glFlush();
@@ -133,7 +134,8 @@ void TetrisGame::DrawTetriminoBox(TetriminoType type, int x, int y) {
     float boxHeight = boxSize / screenHeight;
     float gl_x1 = -1.0 + y * boxWidth;
     float gl_y1 = 1.0 - (x+1) * boxHeight;
-    sprite.Draw(gl_x1, gl_y1, boxWidth, boxHeight, tetrimino_sprite_x[type]/512.,4./512.,36./512.,36./512.);
+    (type >= I_TETRIMINO_SHADOW ? shadowSprite : blockSprite)
+        .Draw(gl_x1, gl_y1, boxWidth, boxHeight, tetrimino_sprite_x[type]/512.,4./512.,36./512.,36./512.);
 }
 
 void TetrisGame::DrawTetrimino(TetriminoType type, int x, int y) {

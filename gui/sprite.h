@@ -11,7 +11,7 @@ public:
     SpriteSheet();
     ~SpriteSheet();
 
-    void Load(const char* filename);
+    void Load(const char* filename, float alpha);
     void Draw(float x, float y, float w, float h, float tx, float ty, float tw, float th) const;
 };
 

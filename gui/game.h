@@ -24,7 +24,8 @@ class TetrisGame {
     int stepTimer;
     int stepTimeThreshold;
 
-    SpriteSheet sprite;
+    SpriteSheet blockSprite;
+    SpriteSheet shadowSprite;
 
     int GetDt(); // Get delta time in milliseconds
     bool StepTimer(int dt);

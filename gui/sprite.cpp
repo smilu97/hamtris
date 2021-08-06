@@ -10,11 +10,19 @@ SpriteSheet::~SpriteSheet() {
     FreePngImage(&image);
 }
 
-void SpriteSheet::Load(const char* filename) {
+void SpriteSheet::Load(const char* filename, float alpha=1.0) {
     image = ReadPngFile(filename);
 
     glGenTextures(1, &texture);
     glBindTexture(GL_TEXTURE_2D, texture);
+
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glEnable(GL_BLEND);
+    glClearColor(0.0, 0.0, 0.0, 0.0);
+
+    for (int i = 0; i < image.width * image.height / 4; i++) {
+        image.data[i*4+3] *= alpha;
+    }
 
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image.width, image.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image.data);
 
