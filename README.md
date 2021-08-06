@@ -9,3 +9,6 @@ make build_cui
 ![screenshot-cui](./static/screenshot-cui.png)
 ![screenshot-gui](./static/screenshot-gui.png)
 
+## Build GUI 
+
+GUI build requires OpenGL, GLUT, libpng
