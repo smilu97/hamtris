@@ -28,8 +28,9 @@ void TetrisGame::Init(int * argc, char ** argv,
     glutInitWindowPosition(100, 100);
     glutCreateWindow("Tetris");
 
-    blockSprite.Load("./static/sprite.png", 1.0f);
-    shadowSprite.Load("./static/sprite.png", 0.5f);
+    blockSprite.Load("./static/sprite.png", GL_RGBA, 1.0f);
+    shadowSprite.Load("./static/sprite.png", GL_RGBA, 0.5f);
+    backgroundSprite.Load("./static/underwater.png", GL_RGB, 1.0f);
 
     glutDisplayFunc(displayFunc);
     glutTimerFunc(0, updateFunc, 0);
@@ -46,6 +47,11 @@ void TetrisGame::Update() {
 
 void TetrisGame::Render() {
     glClear(GL_COLOR_BUFFER_BIT);
+
+    const float bgZoomOut = 2.0;
+    const float bgWidth = screenWidth / (float) backgroundSprite.GetWidth() / 2 * bgZoomOut;
+    const float bgHeight = screenHeight / (float) backgroundSprite.GetHeight() / 2 * bgZoomOut;
+    backgroundSprite.Draw(-1, -1, 2, 2, 0.5-bgWidth, 0.5-bgHeight, 2*bgWidth, 2*bgHeight);
     
     for (int i = 1; i <= 22; i++) {
         DrawTetriminoBox(WALL_TETRIMINO, i, 6);

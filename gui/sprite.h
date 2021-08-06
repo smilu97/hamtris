@@ -11,8 +11,11 @@ public:
     SpriteSheet();
     ~SpriteSheet();
 
-    void Load(const char* filename, float alpha);
+    void Load(const char* filename, GLint format, float alpha);
     void Draw(float x, float y, float w, float h, float tx, float ty, float tw, float th) const;
+
+    int GetWidth() const { return image.width; }
+    int GetHeight() const { return image.height; }
 };
 
 #endif
