@@ -3,11 +3,27 @@
 
 namespace tetris {
 
-    struct PlayerId {
+    struct Id {
         int value;
     public:
-        PlayerId(int value);
-        PlayerId next() const;
+        Id(int value);
+        Id next() const;
+        bool operator==(const Id& other) const;
+        bool operator<(const Id& other) const;
+    };
+
+    typedef Id PlayerId;
+    typedef Id RoomId;
+
+    enum MessageType {
+        MESSAGE_TETRIS = 100,
+
+        MESSAGE_CREATE_ROOM = 200,
+        MESSAGE_JOIN_ROOM,
+    };
+
+    struct HeaderMessage {
+        MessageType type;
     };
     
     enum TetrisAction {
@@ -27,6 +43,10 @@ namespace tetris {
         PlayerId source;
         TetrisAction action;
         TetrisMessage(PlayerId source, TetrisAction action);
+    };
+
+    struct JoinRoomMessage {
+        int roomId;
     };
 }
 

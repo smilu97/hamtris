@@ -6,9 +6,9 @@ void TetrisRoom::AddPlayer(TetrisPlayerPtr player) {
     players.push_back(player);
 }
 
-void TetrisRoom::Broadcast(const TetrisMessage & message) {
+void TetrisRoom::Broadcast(const char * buf, int len) {
     for (auto player: players) {
-        player->Deliver(message);
+        player->Deliver(buf, len);
     }
 }
 
@@ -18,7 +18,7 @@ void TetrisRoom::Play() {
     }
 
     TetrisMessage startMessage(PlayerId(0), TETRIS_ACTION_START_GAME);
-    Broadcast(startMessage);
+    Broadcast((const char*) &startMessage, sizeof(TetrisMessage));
 }
         
 bool TetrisRoom::GetPlaying() {

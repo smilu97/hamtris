@@ -2,11 +2,14 @@
 
 using namespace tetris;
 
-PlayerId::PlayerId(int value): value(value) {}
+Id::Id(int value): value(value) {}
 
-PlayerId PlayerId::next() const {
-    return PlayerId(value + 1);
+Id Id::next() const {
+    return Id(value + 1);
 }
+
+bool Id::operator==(const Id& other) const { return value == other.value; }
+bool Id::operator<(const Id& other) const { return value < other.value; }
 
 TetrisMessage::TetrisMessage(PlayerId source, TetrisAction action):
     source(source),

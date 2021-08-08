@@ -21,7 +21,7 @@ void TetrisServer::Accept() {
         {
           if (!ec)
           {
-            std::make_shared<TetrisPlayer>(AllocPlayerId(), std::move(socket));
+            std::make_shared<TetrisPlayer>(AllocPlayerId(), std::move(socket))->Start();
           }
 
           Accept();

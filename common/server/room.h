@@ -13,7 +13,7 @@ namespace tetris {
         bool playing;
     public:
         void AddPlayer(TetrisPlayerPtr player);
-        void Broadcast(const TetrisMessage & message);
+        void Broadcast(const char * buf, int len);
 
         void Play();
 
