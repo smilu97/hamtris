@@ -1,5 +1,6 @@
 CC := g++
-CFLAGS := --std=c++17 -pthread -Icommon -Icui -Igui -lglut -lGLU -lGL -lpng
+CFLAGS := --std=c++17 -pthread -Icommon -Icui -Igui 
+CLIBS := -lglut -lGLU -lGL -lpng -lboost_system
 
 CUI_OBJS := \
 	objs/common/tetris.o \
@@ -15,6 +16,13 @@ GUI_OBJS := \
 	objs/gui/image.o \
 	objs/gui/sprite.o
 
+SERVER_OBJS := \
+	objs/common/server/player.o \
+	objs/common/server/room.o \
+	objs/common/server/server.o
+
+all: build_gui
+
 build_cui:
 	mkdir -p objs/cui
 	mkdir -p objs/common
@@ -29,7 +37,7 @@ build_cui:
 	$(CC) $(CFLAGS) -c -o objs/cui/main.o cui/main.cpp
 
 	# Build binary
-	$(CC) $(CFLAGS) -o tetris $(CUI_OBJS)
+	$(CC) $(CFLAGS) -o tetris $(CUI_OBJS) $(CLIBS)
 
 build_gui:
 	mkdir -p objs/gui
@@ -45,6 +53,15 @@ build_gui:
 	$(CC) $(CFLAGS) -c -o objs/gui/sprite.o gui/sprite.cpp
 
 	# Build binary
-	$(CC) -o tetris $(GUI_OBJS) $(CFLAGS)
+	$(CC) -o tetris $(GUI_OBJS) $(CFLAGS) $(CLIBS)
 
-all: build_gui
+build_server:
+	mkdir -p objs/common/server
+
+	# Build server objects
+	$(CC) $(CFLAGS) -c -o objs/common/server/player.o common/server/player.cpp
+	$(CC) $(CFLAGS) -c -o objs/common/server/room.o common/server/room.cpp
+	$(CC) $(CFLAGS) -c -o objs/common/server/server.o common/server/server.cpp
+
+	# Build binary
+	$(CC) -o tetris_server $(SERVER_OBJS) $(CFLAGS) $(CLIBS)
