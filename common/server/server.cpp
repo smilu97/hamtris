@@ -5,8 +5,14 @@
 using namespace tetris;
 
 TetrisServer::TetrisServer(asio::io_service& io_context, tcp::endpoint& endpoint):
-    acceptor(io_context, endpoint) {
+    acceptor(io_context, endpoint),
+    latestPlayerId(0) {
     
+}
+
+PlayerId TetrisServer::AllocPlayerId() {
+  latestPlayerId = latestPlayerId.next();
+  return latestPlayerId;
 }
 
 void TetrisServer::Accept() {
@@ -15,7 +21,7 @@ void TetrisServer::Accept() {
         {
           if (!ec)
           {
-            std::make_shared<TetrisPlayer>(std::move(socket));
+            std::make_shared<TetrisPlayer>(AllocPlayerId(), std::move(socket));
           }
 
           Accept();

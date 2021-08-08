@@ -2,7 +2,8 @@
 
 using namespace tetris;
 
-TetrisPlayer::TetrisPlayer(tcp::socket socket):
+TetrisPlayer::TetrisPlayer(PlayerId id, tcp::socket socket):
+    id(id),
     socket (std::move(socket)) {
 
 }

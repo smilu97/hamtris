@@ -19,7 +19,8 @@ GUI_OBJS := \
 SERVER_OBJS := \
 	objs/common/server/player.o \
 	objs/common/server/room.o \
-	objs/common/server/server.o
+	objs/common/server/server.o \
+	objs/common/server/message.o
 
 all: build_gui
 
@@ -62,6 +63,7 @@ build_server:
 	$(CC) $(CFLAGS) -c -o objs/common/server/player.o common/server/player.cpp
 	$(CC) $(CFLAGS) -c -o objs/common/server/room.o common/server/room.cpp
 	$(CC) $(CFLAGS) -c -o objs/common/server/server.o common/server/server.cpp
+	$(CC) $(CFLAGS) -c -o objs/common/server/message.o common/server/message.cpp
 
 	# Build binary
 	$(CC) -o tetris_server $(SERVER_OBJS) $(CFLAGS) $(CLIBS)

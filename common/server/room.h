@@ -10,9 +10,14 @@ namespace tetris {
 
     class TetrisRoom {
         std::vector<TetrisPlayerPtr> players;
+        bool playing;
     public:
         void AddPlayer(TetrisPlayerPtr player);
-        void Broadcast(TetrisMessage & message);
+        void Broadcast(const TetrisMessage & message);
+
+        void Play();
+
+        bool GetPlaying();
     };
 
     typedef std::shared_ptr<TetrisRoom> TetrisRoomPtr;

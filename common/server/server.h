@@ -17,6 +17,9 @@ namespace tetris {
         std::vector<TetrisPlayerPtr> players;
 
         tcp::acceptor acceptor;
+
+        PlayerId latestPlayerId;
+        PlayerId AllocPlayerId();
     public:
         TetrisServer(asio::io_service& io_context, tcp::endpoint& endpoint);
         void Accept();

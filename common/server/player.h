@@ -14,9 +14,11 @@ namespace tetris {
         PlayerId id;
         tcp::socket socket;
     public:
-        TetrisPlayer(tcp::socket socket);
+        TetrisPlayer(PlayerId id, tcp::socket socket);
 
         void Deliver(const TetrisMessage & msg);
+
+        bool alive;
     };
 
     typedef std::shared_ptr<TetrisPlayer> TetrisPlayerPtr;
