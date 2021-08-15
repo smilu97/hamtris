@@ -4,7 +4,9 @@
 
 using namespace tetris;
 
-TetrisServer::TetrisServer(asio::io_service& io_context, tcp::endpoint& endpoint):
+using boost::asio::ip::tcp;
+
+TetrisServer::TetrisServer(boost::asio::io_service& io_context, tcp::endpoint& endpoint):
     acceptor(io_context, endpoint),
     latestPlayerId(0) {
     
@@ -34,7 +36,7 @@ int main(int argc, char** argv) {
         return 1;
     }
 
-    asio::io_context io_context;
+    boost::asio::io_context io_context;
     tcp::endpoint endpoint(tcp::v4(), atoi(argv[1]));
 
     TetrisServer server(io_context, endpoint);

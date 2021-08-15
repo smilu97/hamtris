@@ -2,11 +2,11 @@
 #define __PLAYER_H__
 
 #include <utility>
-#include <asio.hpp>
+#include <boost/asio.hpp>
 
 #include "message.h"
 
-using namespace asio::ip;
+using boost::asio::ip::tcp;
 
 namespace tetris {
 

@@ -62,7 +62,7 @@ PngImage ReadPngFile(const char* file_name)
         Abort("[read_png_file] Error during read_image");
 
     image.row_pointers = (png_bytep*) malloc(sizeof(png_bytep) * image.height);
-    uint row_sz = png_get_rowbytes(image.png_ptr,image.info_ptr);
+    int row_sz = png_get_rowbytes(image.png_ptr,image.info_ptr);
     for (int y=0; y < image.height; y++) {
         image.row_pointers[y] = (png_byte*) malloc(row_sz);
     }

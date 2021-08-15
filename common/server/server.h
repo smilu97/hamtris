@@ -3,12 +3,12 @@
 
 #include <vector>
 
-#include <asio.hpp>
+#include <boost/asio.hpp>
 
 #include "room.h"
 #include "player.h"
 
-using namespace asio::ip;
+using boost::asio::ip::tcp;
 
 namespace tetris {
     
@@ -21,7 +21,7 @@ namespace tetris {
         PlayerId latestPlayerId;
         PlayerId AllocPlayerId();
     public:
-        TetrisServer(asio::io_service& io_context, tcp::endpoint& endpoint);
+        TetrisServer(boost::asio::io_service& io_context, tcp::endpoint& endpoint);
         void Accept();
     };
 

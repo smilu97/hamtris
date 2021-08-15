@@ -13,7 +13,7 @@ void TetrisPlayer::Start() {
 }
 
 void TetrisPlayer::Deliver(const char* buf, int len) {
-    asio::async_write(socket, asio::buffer(buf, len), [this](std::error_code err, std::size_t){
+    socket.async_write_some(boost::asio::buffer(buf, len), [this](std::error_code err, std::size_t){
         if (err) {
             return;
         }
@@ -22,7 +22,7 @@ void TetrisPlayer::Deliver(const char* buf, int len) {
 }
 
 void TetrisPlayer::ReadMessage(int len, ReadHandler readHandler) {
-    asio::async_read(socket, asio::buffer(readBuffer, len), readHandler);
+    socket.async_read_some(boost::asio::buffer(readBuffer, len), readHandler);
 }
 
 void TetrisPlayer::ReadHeader() {
