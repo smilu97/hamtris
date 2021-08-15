@@ -3,6 +3,7 @@
 #include "wallkick.h"
 
 #include <algorithm>
+#include <random>
 #include <numeric>
 #include <ctime>
 
@@ -36,8 +37,11 @@ void Tetris::AddBatchInQueue() {
     batch[4] = T_TETRIMINO;
     batch[5] = Z_TETRIMINO;
     batch[6] = O_TETRIMINO;
+
+    std::random_device rd;
+    std::mt19937 gen(rd());
     
-    std::random_shuffle(batch.begin(), batch.end());
+    std::shuffle(batch.begin(), batch.end(), gen);
 
     for (TetriminoType piece: batch)
         queue.push_back(piece);
