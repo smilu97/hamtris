@@ -2,3 +2,4 @@
 **/tetris
 **/*.log
 **/tetris_server
+build/
