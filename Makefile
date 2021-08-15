@@ -1,6 +1,6 @@
 CC := g++
 CFLAGS := --std=c++17 -pthread -Icommon -Icui -Igui 
-CLIBS := -lglut -lGLU -lGL -lpng -lboost_system
+CLIBS := -lglut -lGL -lpng -lboost_system
 
 CUI_OBJS := \
 	objs/common/tetris.o \
